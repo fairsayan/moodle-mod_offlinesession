@@ -15,7 +15,13 @@ function offlinesession_get_list ($offlinesession, $editing = true) {
     global $OUTPUT;
     global $DB;
     
-    $result = "\n<table id=\"offlinesession_list_table\" cellpadding=\"5\" rules=\"rows\" frame=\"below\">\n\t<col width=\"50\" />\n";
+    $add_new_string = get_string('addofflinesession', 'offlinesession');
+    $result = <<<EOD
+<table id="offlinesession_list_table" cellpadding="5" rules="rows" frame="below">
+    <col width="50" />
+    <caption><a href="edit.php?offlinesessionid=$offlinesession->id">$add_new_string</a></caption>
+
+EOD;
     $rows = $DB->get_records('offlinesession_data', array('offlinesessionid' => $offlinesession->id), 'starttime DESC');
     if (empty($rows)) return $OUTPUT->notification(get_string('nothingtodisplay'));
     foreach ($rows as $row) {
@@ -53,6 +59,7 @@ function offlinesession_get_list_table_title ($row, $editing) {
 function offlinesession_get_list_table_row ($row, $editing) {
     global $OUTPUT;
     global $DB;
+    global $modinfo;
 
     $result = "\t<tr>\n";
     if ($editing) {
@@ -69,9 +76,16 @@ function offlinesession_get_list_table_row ($row, $editing) {
                 $result .= "\t\t<td>" . fullname($user) . "</td>\n";
                 break;
             case 'starttime':
-            case 'endtime':
                 $date = userdate($data);
                 $result .= "\t\t<td>$date</td>\n";
+                break;
+            case 'duration':
+                $date = format_time($data);
+                $result .= "\t\t<td>$date</td>\n";
+                break;
+            case 'cmid':
+                $name = $modinfo->cms[$data]->name;
+                $result .= "\t\t<td>$name</td>\n";
                 break;
             default:
                 $result .= "\t\t<td>$data</td>\n";

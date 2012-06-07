@@ -29,6 +29,7 @@ if ($id) {
 
 require_login($course, true, $cm);
 $context = get_context_instance(CONTEXT_MODULE, $cm->id);
+$modinfo = get_fast_modinfo($course);
 
 add_to_log($course->id, 'offlinesession', 'view', "view.php?id={$cm->id}", $offlinesession->name, $cm->id);
 

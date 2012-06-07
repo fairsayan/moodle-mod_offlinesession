@@ -1,3 +1,58 @@
 #offlinesession_list_table {
     margin: auto;
 }
+
+
+
+
+/** CSS definition for edit form **/
+/* this piece of code is adapted for IE7, there are some dirty things
+ * this is the beginning of the optimized IE7 code: */
+.offlinesessioneditform.mform {
+    width: 600px;
+    margin:auto;
+}
+
+.offlinesessioneditform.mform div.fdescription {
+/*    padding-top: 30px;*/
+}
+
+.offlinesessioneditform.mform div.fitem.finlinefirst {
+  width: 170px;
+  float: left;
+  clear: left;
+  text-align: right;
+}
+
+.offlinesessioneditform.mform div.fitem.finlinefirst .fitemtitle {
+    text-align: right;
+    width: 100px;
+} 
+
+.offlinesessioneditform.mform div.fitem.finlinefirst div.felement {
+  width: auto;
+}
+
+.offlinesessioneditform.mform div.felement.finline,
+.offlinesessioneditform.mform div.felement.finlinelast {
+  width: auto;
+  float: left;
+  margin-top: 5px;
+  margin-bottom: 1px;
+  margin-left: 3px;
+}
+
+.offlinesessioneditform.mform div.felement.finlinelast {
+  clear: right;
+  width: auto;
+}
+
+.pulldownIE7 {
+  width: 100%;
+  clear: both;
+  float: none;
+}
+
+.offlinesessioneditform.mform #fitem_id_durationminute {
+    margin-bottom: 20px;
+}

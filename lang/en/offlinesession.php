@@ -23,3 +23,9 @@ $string['pluginname'] = 'offlinesession';
 $string['starttime'] = 'Start time';
 $string['endtime'] = 'End time';
 $string['duration'] = 'Duration';
+
+$string['addofflinesession'] = 'Add a new offline session';
+$string['unabletoaddofflinesessiondata'] = 'Unable to add offline session data';
+$string['unabletoupdateofflinesessiondata'] = 'Unable to update offline session data';
+$string['offlinesessiondataupdated'] = 'Offline session data updated';
+$string['selectanactivity'] = 'Select an activity...';
