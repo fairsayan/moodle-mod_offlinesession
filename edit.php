@@ -29,8 +29,8 @@ $cm             = get_coursemodule_from_instance('offlinesession', $offlinesessi
 
 require_login($course, true, $cm);
 $context = get_context_instance(CONTEXT_MODULE, $cm->id);
+$see_all = has_capability('mod/offlinesession:manageall', $context);
 
-add_to_log($course->id, 'offlinesession', 'edit data', "edit.php?dataid=$dataid&offlinesessionid=$offlinesessionid", $offlinesession->name, $cm->id);
 
 /// Print the page header
 
@@ -38,6 +38,12 @@ $PAGE->set_url('/mod/offlinesession/view.php', array('id' => $cm->id));
 $PAGE->set_title(format_string($offlinesession->name));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($context);
+
+if (!$see_all && $dataid && $USER->id != $offlinesession_data->userid)
+    echo notice(get_string('accessdenied', 'admin'), $CFG->wwwroot.'/mod/offlinesession/view.php?id='.$cm->id, $course);
+
+add_to_log($course->id, 'offlinesession', 'edit data', "edit.php?dataid=$dataid&offlinesessionid=$offlinesessionid", $offlinesession->name, $cm->id);
+
 
 // other things you may want to set - remove if not needed
 //$PAGE->set_cacheable(false);

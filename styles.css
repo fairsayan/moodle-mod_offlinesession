@@ -2,7 +2,14 @@
     margin: auto;
 }
 
+#offlinesession_list_table caption {
+    min-width: 400px;
+}
 
+.editing_img {
+    margin-left: 3px;
+    margin-right: 3px;
+}
 
 
 /** CSS definition for edit form **/

@@ -11,11 +11,19 @@
 defined('MOODLE_INTERNAL') || die();
 require_once(dirname(__FILE__).'/../../lib/outputrenderers.php');
 
-function offlinesession_get_list ($offlinesession, $editing = true) {
+/**
+ * 
+ * @param object $offlinesession
+ * @param boolean $see_all
+ * @param boolean $editing
+ */
+function offlinesession_get_list ($offlinesession, $see_all, $editing = true) {
     global $OUTPUT;
     global $DB;
+    global $USER;
     
     $add_new_string = get_string('addofflinesession', 'offlinesession');
+    $first_row = true;
     $result = <<<EOD
 <table id="offlinesession_list_table" cellpadding="5" rules="rows" frame="below">
     <col width="50" />
@@ -23,12 +31,14 @@ function offlinesession_get_list ($offlinesession, $editing = true) {
 
 EOD;
     $rows = $DB->get_records('offlinesession_data', array('offlinesessionid' => $offlinesession->id), 'starttime DESC');
-    if (empty($rows)) return $OUTPUT->notification(get_string('nothingtodisplay'));
+    if (empty($rows))
+        return "<div style=\"text-align:center\"><a href=\"edit.php?offlinesessionid=$offlinesession->id\">$add_new_string</a></div>";
     foreach ($rows as $row) {
-        $result .= offlinesession_get_list_table_title ($row, $editing);
-        break; // use just the first record
+        if ((!$see_all) && ($USER->id != $row->userid)) continue;
+        if ($first_row) $result .= offlinesession_get_list_table_title ($row, $editing);
+        $result .= offlinesession_get_list_table_row ($row, $editing);
+        $first_row = false;
     }
-    foreach ($rows as $row) $result .= offlinesession_get_list_table_row ($row, $editing);
     $result .= "</table>\n";
     return $result;
 }

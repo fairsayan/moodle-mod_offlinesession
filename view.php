@@ -29,6 +29,7 @@ if ($id) {
 
 require_login($course, true, $cm);
 $context = get_context_instance(CONTEXT_MODULE, $cm->id);
+$see_all = has_capability('mod/offlinesession:manageall', $context);
 $modinfo = get_fast_modinfo($course);
 
 add_to_log($course->id, 'offlinesession', 'view', "view.php?id={$cm->id}", $offlinesession->name, $cm->id);
@@ -52,7 +53,7 @@ if ($offlinesession->intro) { // Conditions to show the intro can change to look
     echo $OUTPUT->box(format_module_intro('offlinesession', $offlinesession, $cm->id), 'generalbox mod_introbox', 'offlinesessionintro');
 }
 
-$content = offlinesession_get_list($offlinesession);
+$content = offlinesession_get_list($offlinesession, $see_all);
 
 echo $OUTPUT->box($content, 'generalbox');
 

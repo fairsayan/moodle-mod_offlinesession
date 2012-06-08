@@ -12,6 +12,18 @@ defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
 
+    'mod/offlinesession:manageall' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_MODULE,
+        'legacy' => array(
+            'guest' => CAP_PREVENT,
+            'student' => CAP_PREVENT,
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'admin' => CAP_ALLOW
+        )
+    ),
+                
 /***************************** remove these comment marks and modify the code as needed
     'mod/offlinesession:view' => array(
         'captype' => 'read',
