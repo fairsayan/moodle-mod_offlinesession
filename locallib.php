@@ -94,8 +94,8 @@ function offlinesession_get_list_table_row ($row, $editing) {
                 $result .= "\t\t<td>$date</td>\n";
                 break;
             case 'cmid':
-                $name = $modinfo->cms[$data]->name;
-                $result .= "\t\t<td>$name</td>\n";
+                if ($data !== NULL) $modname = $modinfo->cms[$data]->name; else $modname='';
+                $result .= "\t\t<td>$modname</td>\n";
                 break;
             default:
                 $result .= "\t\t<td>$data</td>\n";
