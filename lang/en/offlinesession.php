@@ -31,5 +31,8 @@ $string['unabletoaddofflinesessiondata'] = 'Unable to add offline session data';
 $string['unabletoupdateofflinesessiondata'] = 'Unable to update offline session data';
 $string['unabletodeleteofflinesession'] = 'Unable to delete offline session';
 $string['offlinesessiondataupdated'] = 'Offline session data updated';
+$string['offlinesessiondatacanupdateuntil'] = 'Offline session data updated. You can edit until {$a}';
 $string['selectanactivity'] = 'Select an activity...';
 
+$string['description_timeout_for_blocking'] = 'Time limit after that the offline session registered will be locked (if 0 won\'t be locked)';
+$string['timeout_for_blocking'] = 'Timeout to lock (minutes)';

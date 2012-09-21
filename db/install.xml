@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="mod/newmodule/db" VERSION="20120607" COMMENT="XMLDB file for Moodle mod/newmodule"
+<XMLDB PATH="mod/newmodule/db" VERSION="20120921" COMMENT="XMLDB file for Moodle mod/newmodule"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -29,7 +29,8 @@
         <FIELD NAME="starttime" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="userid" NEXT="duration"/>
         <FIELD NAME="duration" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="starttime" NEXT="cmid"/>
         <FIELD NAME="cmid" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" PREVIOUS="duration" NEXT="description"/>
-        <FIELD NAME="description" TYPE="char" LENGTH="500" NOTNULL="false" SEQUENCE="false" PREVIOUS="cmid"/>
+        <FIELD NAME="description" TYPE="char" LENGTH="500" NOTNULL="false" SEQUENCE="false" PREVIOUS="cmid" NEXT="timecreated"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="description"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>

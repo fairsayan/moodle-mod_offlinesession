@@ -67,14 +67,18 @@ elseif ($data = $editform->get_data()) {
     $offlinesession_data->offlinesessionid = $data->offlinesessionid;
     $offlinesession_data->userid = $USER->id;
     if ($data->cmid) $offlinesession_data->cmid = $data->cmid;
-
     if (!$dataid) {
+        $offlinesession_data->timecreated = time();
         $offlinesession_data->id = $DB->insert_record('offlinesession_data', $offlinesession_data);
         if (!$offlinesession_data->id) notice(get_string("unabletoaddofflinesessiondata", 'offlinesession'));
     } elseif (!$DB->update_record ('offlinesession_data', $offlinesession_data))
         notice(get_string("unabletoupdateofflinesessiondata", 'offlinesessiondata'));
 
-    redirect($CFG->wwwroot.'/mod/offlinesession/view.php?id='.$cm->id, get_string("offlinesessiondataupdated", 'offlinesession'));
+    
+    if ($CFG->offlinesession_timeout_for_blocking)
+        $message = get_string("offlinesessiondatacanupdateuntil", 'offlinesession', date('D, d M Y H:i:s')); 
+        else $message = get_string("offlinesessiondataupdated", 'offlinesession'); 
+    redirect($CFG->wwwroot.'/mod/offlinesession/view.php?id='.$cm->id, $message);
     $displayform = false;
 }
 
