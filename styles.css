@@ -49,6 +49,10 @@
   margin-left: 3px;
 }
 
+.offlinesessioneditform.mform div.felement.finlinelast .error {
+  margin-left: 10px;
+}
+
 .offlinesessioneditform.mform div.felement.finlinelast {
   clear: right;
   width: auto;
@@ -60,6 +64,6 @@
   float: none;
 }
 
-.offlinesessioneditform.mform #fitem_id_durationminute {
+.offlinesessioneditform.mform #fitem_id_endminute {
     margin-bottom: 20px;
 }

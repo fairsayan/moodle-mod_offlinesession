@@ -62,7 +62,7 @@ elseif ($data = $editform->get_data()) {
     
     if ($dataid) $offlinesession_data->id = $dataid;
     $offlinesession_data->starttime = mktime ($data->starthour, $data->startminute, 0, $data->month, $data->day, $data->year);
-    $offlinesession_data->duration = $data->durationhour * 3600 + $data->durationminute *60;
+    $offlinesession_data->duration = ($data->endhour - $data->starthour) * 3600 + ($data->endminute - $data->startminute)  *60;
     $offlinesession_data->description = $data->description;
     $offlinesession_data->offlinesessionid = $data->offlinesessionid;
     $offlinesession_data->userid = $USER->id;

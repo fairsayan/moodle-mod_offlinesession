@@ -28,14 +28,15 @@ class offlinesession_edit_form extends moodleform {
         if ($dataid) {
             global $offlinesession_data;
             $starttime_obj = getdate($offlinesession_data->starttime);
+            $endtime_obj = getdate($offlinesession_data->starttime + $offlinesession_data->duration);
 
             $default_day   =  $starttime_obj['mday'];
             $default_month =  $starttime_obj['mon'];
             $default_year  =  $starttime_obj['year'];
             $default_starthour        = $starttime_obj['hours'];
             $default_startminute      = $starttime_obj['minutes'];
-            $default_durationhour     = intval(intval($offlinesession_data->duration) / 3600);
-            $default_durationminute   = intval((intval($offlinesession_data->duration) - $default_durationhour * 3600) /60);
+            $default_endhour     = $endtime_obj['hours'];
+            $default_endminute   = $endtime_obj['minutes'];
             $default_description      = $offlinesession_data->description;
             if ($offlinesession_data->cmid) $default_cmid = $offlinesession_data->cmid;
                 else $default_cmid = '0';
@@ -45,8 +46,8 @@ class offlinesession_edit_form extends moodleform {
             $default_year  =  $curryear;
             $default_starthour      = '8';
             $default_startminute    = '00';
-            $default_durationhour   = '0';
-            $default_durationminute = '00';
+            $default_endhour   = '8';
+            $default_endnminute = '00';
             $default_description    = '';
             $default_cmid = '0';
         }
@@ -74,14 +75,14 @@ class offlinesession_edit_form extends moodleform {
         $mform->setType('startminute', PARAM_INT);
         $mform->setDefault('startminute', $default_startminute);
 
-        $mform->addElement('select', 'durationhour', get_string('duration', 'offlinesession'), $hours);
-        $mform->setType('durationhour', PARAM_INT);
-        $mform->addRule('durationhour', null, 'required', null, 'client');
-        $mform->setDefault('durationhour', $default_durationhour);
+        $mform->addElement('select', 'endhour', get_string('endtime', 'offlinesession'), $hours);
+        $mform->setType('endhour', PARAM_INT);
+        $mform->addRule('endhour', null, 'required', null, 'client');
+        $mform->setDefault('endhour', $default_endhour);
 
-        $mform->addElement('select', 'durationminute', '', $minutes);
-        $mform->setType('durationminute', PARAM_INT);
-        $mform->setDefault('durationminute', $default_durationminute);
+        $mform->addElement('select', 'endminute', '', $minutes);
+        $mform->setType('endminute', PARAM_INT);
+        $mform->setDefault('endminute', $default_endminute);
 
         $mform->addElement('select', 'cmid', get_string('activity'), $cmids);
         $mform->setType('cmid', PARAM_INT);
@@ -98,9 +99,11 @@ class offlinesession_edit_form extends moodleform {
     }
     
     function validation ($data) {
-      $errors = array();
+        $errors = array();
+        $duration = ($data['endhour'] - $data['starthour']) * 3600 + ($data['endminute'] - $data['startminute'])  * 60;
+        if ($duration <= 0) $errors['endminute'] = get_string('endtimemustbegreaterstarttime', 'offlinesession');
 
-      return empty($errors)?true:$errors;
+        return empty($errors)?true:$errors;
     }
 }
 
@@ -113,14 +116,14 @@ class MoodleOfflineSessionEditForm_Renderer extends MoodleQuickForm_Renderer {
         switch ($element->getName()) {
           case 'day':
           case 'starthour':
-          case 'durationhour':
+          case 'endhour':
               $html = $this->_elementTemplates['inlinefirst'];
             break;
           case 'month':
               $html = $this->_elementTemplates['inline'];
             break;
           case 'startminute':
-          case 'durationminute':
+          case 'endminute':
           case 'year':
               $html = $this->_elementTemplates['inlinelast'];
             break;
@@ -172,7 +175,7 @@ class MoodleOfflineSessionEditForm_Renderer extends MoodleQuickForm_Renderer {
     function __construct () {
       parent::__construct();
       $this->_elementTemplates['inline'] = "\n\t\t".'<div id="{id}" class="felement finline {type}<!-- BEGIN error --> error<!-- END error -->"><!-- BEGIN error --><span class="error">{error}</span><br /><!-- END error -->{element}</div>';
-      $this->_elementTemplates['inlinelast'] = "\n\t\t".'<div id="{id}" class="felement finlinelast {type}<!-- BEGIN error --> error<!-- END error -->"><!-- BEGIN error --><span class="error">{error}</span><br /><!-- END error -->{element}</div>';
+      $this->_elementTemplates['inlinelast'] = "\n\t\t".'<div id="{id}" class="felement finlinelast {type}<!-- BEGIN error --> error<!-- END error -->">{element}<!-- BEGIN error --><span class="error">{error}</span><!-- END error --></div>';
       $this->_elementTemplates['inlinefirst'] = "\n\t\t".'<div id="{id}" class="pulldownIE7"></div><div class="fitem finlinefirst {advanced}<!-- BEGIN required --> required<!-- END required -->"><div class="fitemtitle"><label>{label}<!-- BEGIN required -->{req}<!-- END required -->{advancedimg} {help}</label></div><div class="felement {type}<!-- BEGIN error --> error<!-- END error -->"><!-- BEGIN error --><span class="error">{error}</span><br /><!-- END error -->{element}</div></div>';
       parent::HTML_QuickForm_Renderer_Tableless();
     }

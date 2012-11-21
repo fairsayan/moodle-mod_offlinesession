@@ -36,3 +36,6 @@ $string['selectanactivity'] = 'Select an activity...';
 
 $string['description_timeout_for_blocking'] = 'Time limit after that the offline session registered will be locked (if 0 won\'t be locked)';
 $string['timeout_for_blocking'] = 'Timeout to lock (minutes)';
+
+/** errors **/
+$string['endtimemustbegreaterstarttime'] = 'End time must be greater then start time';
